@@ -8,7 +8,7 @@ displayDay();
 
 //TODO: create time blocks
 var timeTable = $('#time_table');
-var hours = [9, 10, 11, 12, 1, 2, 3, 4, 5];
+var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 
 function createTimeBlocks() {
   for (let i=0; i < hours.length; i++){
@@ -26,23 +26,27 @@ timeTable.append(newSchedule);
 //create td, set to <a> with save, append to new row
 var saveLink = $('<a>').text('Save').attr('href', '#').addClass('save');
 timeTable.append(saveLink);
+
+//TODO: set time blocks to color depending on their time
+var currentTime = moment().format('HH'); 
+
+var timeColoring = function(){
+  if (currentTime < hours[i]){
+    newSchedule.addClass('past');
+  } else if (currentTime === hours[i]) {
+    newSchedule.addClass('present');
+  } else {
+    newSchedule.addClass('future');
   }
+};
+timeColoring();
+}
 };
 createTimeBlocks();
 
-//TODO: set time blocks to color depending on their time
-var currentTime = moment().format('LT'); 
-console.log(currentTime);
-
-// var timeColoring = function(){
-//  if (currentTime.value === )
-// };
-// timeColoring();
-
 //TODO: when click save, save schedule input to local storage
 var scheduleInput = $('#schedule').val(); //gets value of schedule <td>
-console.log(scheduleInput.val);
-
+console.log(scheduleInput);
 
 $('.save').on('click', function() { //when save link is clicked, set value of schedule to local input
     localStorage.setItem('schedule', scheduleInput)
