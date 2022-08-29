@@ -21,10 +21,11 @@ var newHour = $('<td>').text(hours[i]);
 timeTable.append(newHour);
 //create td, set data to emplty schedule, append to new row 
 //make content editable attribute
-var newSchedule = $('<td>').text('Schedule area');
+var newSchedule = $('<td>').text('Schedule area').attr('contenteditable', 'true');
 timeTable.append(newSchedule);
 //create td, set to <a> with save, append to new row
-var saveLink = $('<a>').attr('href', '#').text('Save')
+var saveLink = $('<a>').text('Save').attr('href', '#');
+timeTable.append(saveLink);
 
   }
 };
