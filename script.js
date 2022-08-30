@@ -7,71 +7,93 @@ function displayDay() {
 displayDay();
 
 var timeBlocks = $('#time_blocks');
-var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
-var storedSchedule = ['schedule 9', 'schedule 10', 'schedule 11', 'schedule 12', 'schedule 13', 'schedule 14', 'schedule 15', 'schedule 16', 'schedule 17'];
 
-//TODO List:
-//add event listener to each button within loop
-//store text in local storage
-//adds specific id for each schedule <td>
-//change to list, get rid of default styling for lists
+//TODO: array stored to local storage
+localStorage.setItem('data', storedData);
+
+var storedData = [
+  {
+    hour: 9,
+    schedule: 'sch9'
+  },
+  {
+    hour: 10,
+    schedule: 'sch10'
+  },
+  {
+    hour: 11,
+    schedule: 'sch11'
+  },
+  {
+    hour: 12,
+    schedule: 'sch12'
+  },
+  {
+    hour: 13,
+    schedule: 'sch13'
+  },
+  {
+    hour: 14,
+    schedule: 'sch14'
+  },
+  {
+    hour: 15,
+    schedule: 'sch15'
+  },
+  {
+    hour: 16,
+    schedule: 'sch16'
+  },
+  {
+    hour: 17,
+    schedule: 'sch17'
+  }
+];
 
 function createTimeBlocks() {
-  for (let i = 0; i < hours.length; i++) {
+  for (let i = 0; i < storedData.length; i++) {
     let newRow = $('<section>').addClass('time-block col-12 d-inline-flex justify-content-center');
-    let newHour = $('<li>').text(hours[i]).addClass('hour col-2');
-    let newSchedule = $('<li>').text('Schedule area').attr('contenteditable', 'true').addClass('col-12 d-flex');
-    newSchedule.attr('data-hour', hours[i]);
-    let saveBtn = $('<button>').text('Save').addClass('d-flex col-2 saveBtn');
+    let newHour = $('<li>').text(storedData[i].hour).addClass('hour col-1');
+    let newSchedule = $('<li>').text(storedData[i].schedule).attr('contenteditable', 'true').addClass('schedule col-9 d-flex');
+    newSchedule.attr('data-hour', storedData[i].hour); //Sets the data-hour of each schedule to the hour example: data-hour="9"
+    let saveBtn = $('<button>').text('Save').addClass('d-flex col-1 saveBtn');
 
     timeBlocks.append(newRow);
     newRow.append(newHour);
     newRow.append(newSchedule);
     newRow.append(saveBtn);
 
+    //Colors the background of Schedule <li> depending on their hour
     let currentTime = moment().format('HH');
     let timeColoring = function () {
-      if (currentTime < hours[i]) {
+      if (currentTime < storedData[i].hour) {
         newSchedule.addClass('future');
-      } else if (currentTime === hours[i]) {
-        newSchedule.addClass('present');
-      } else {
+      } else if (currentTime > storedData[i].hour) {
         newSchedule.addClass('past');
+      } else {
+        newSchedule.addClass('present');
       }
     };
     timeColoring();
 
     //TODO LOCAL STORAGE 
 
-    let scheduleInput = $('#schedule').text();
     saveBtn.on('click', function () {
-      //save to local storage
-      localStorage.setItem('schedule', scheduleInput);
+      let scheduleElToStore = saveBtn.siblings('.schedule');
+      console.log(scheduleElToStore);
+      let newScheduleInput = scheduleElToStore.text();
+      console.log(newScheduleInput);
+
+
+      //1. find sibling schedule element .sibling('.schedule')
+      //2. get the new input data
+      //3. set the contents of storedData[i].schedule to the new contents(#2)
+      //4. find index in storedData that matches attr data-hour='12'
+
+      // let scheduleInput = $('.schedule').text(); //gets the text data from all schedule classes
+
+
     })
   }
 };
 createTimeBlocks();
-
-//TODO: Local Storage
-// Get data typed into schedule section
-// var scheduleInput = $('#schedule').text();
-// console.log(scheduleInput);
-
-//Get Stored Items
-var getLocalStorage = function () {
-  localStorage.getItem('schedule');
-};
-console.log(getLocalStorage);
-
-$('.saveBtn').on('click', function () {
-  localStorage.setItem('schedule', scheduleInput);
-  localStorage.getItem('schedule');
-  console.log(this);
-  //TODO: use this to find sibling 
-});
-
-//TODO: 
-// var init = function () {
-//   getLocalStorage();
-//   $('schedule').text()
-// };
