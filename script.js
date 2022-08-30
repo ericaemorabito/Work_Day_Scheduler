@@ -6,28 +6,29 @@ function displayDay() {
 }
 displayDay();
 
-//TODO: create time blocks
 var timeTable = $('#time_table');
 var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 
 function createTimeBlocks() {
   for (let i=0; i < hours.length; i++){
-//create new row
 var newRow = $('<tr>').addClass('.time-block', 'row');
-//append new row to table
 timeTable.append(newRow);
-//create td, set data td to index of hour, append to new row
-var newHour = $('<td>').text(hours[i]).addClass('hour');
-timeTable.append(newHour);
-//create td, set data to emplty schedule, append to new row 
-//make content editable attribute
-var newSchedule = $('<td>').text('Schedule area').addClass('schedule').attr('contenteditable', 'true');
-timeTable.append(newSchedule);
-//create td, set to <a> with save, append to new row
-var saveLink = $('<a>').text('Save').attr('href', '#').addClass('saveBtn');
-timeTable.append(saveLink);
 
-//TODO: set time blocks to color depending on their time
+//create td, set data td to index of hour, append to new row
+var newHour = $('<td>').text(hours[i]).addClass('hour p-3');
+newRow.append(newHour);
+
+//create td, set data to empty schedule, append to new row
+var newSchedule = $('<td>').text('Schedule area').attr('contenteditable', 'true').attr('id', 'schedule').addClass('p-3');
+newRow.append(newSchedule);
+
+//TODO: adds specific id for each schedule <td>
+newSchedule.attr('id', hours[i]);
+
+//create td, set to <a> with save, append to new row
+var saveLink = $('<a>').text('Save').attr('href', '#').addClass('saveBtn p-3');
+newRow.append(saveLink);
+
 var currentTime = moment().format('HH'); 
 
 var timeColoring = function(){
@@ -44,14 +45,24 @@ timeColoring();
 };
 createTimeBlocks();
 
-//TODO: put id's on the <td> for schedule
-//TODO: when click save, save schedule input to local storage
-var scheduleInput = $('#schedule').val(); //TODO: 
+//TODO: Local Storage
+
+// Get data typed into schedule section
+var scheduleInput = $('#schedule').text(); //
 console.log(scheduleInput);
 
-$('.save').on('click', function() { //when save link is clicked, set value of schedule to local input
-  //TODO: get input in schedule block
-  //TODO: set to storage array
-  //TODO: create temp array local storage
-    localStorage.setItem('schedule', scheduleInput)
+//Get Stored Items
+var getLocalStorage = function(){
+  localStorage.getItem('schedule');
+};
+console.log(getLocalStorage);
+
+$('.saveBtn').on('click', function() {
+  localStorage.setItem('schedule', scheduleInput);
+  localStorage.getItem('schedule');
   });
+
+var init = function(){
+  getLocalStorage();
+  $('schedule').text()
+};
