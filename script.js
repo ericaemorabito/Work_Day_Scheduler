@@ -1,68 +1,71 @@
 var currentDayEl = $('#currentDay');
 
 function displayDay() {
-  var currentDay = moment().format('dddd'); 
+  var currentDay = moment().format('dddd');
   currentDayEl.text(currentDay);
 }
 displayDay();
 
-var timeTable = $('#time_table');
+var timeBlocks = $('#time_blocks');
 var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 
+//TODO List:
+//add event listener to each button within loop
+//store text in local storage
+//adds specific id for each schedule <td>
+//change to list, get rid of default styling for lists
+
 function createTimeBlocks() {
-  for (let i=0; i < hours.length; i++){
-var newRow = $('<tr>').addClass('.time-block', 'row');
-timeTable.append(newRow);
+  for (let i = 0; i < hours.length; i++) {
+    let newRow = $('<section>').addClass('time-block col-12 d-inline-flex justify-content-center');
+    timeBlocks.append(newRow);
 
-//create td, set data td to index of hour, append to new row
-var newHour = $('<td>').text(hours[i]).addClass('hour p-3');
-newRow.append(newHour);
+    let newHour = $('<li>').text(hours[i]).addClass('hour col-2 p-3');
+    newRow.append(newHour);
 
-//create td, set data to empty schedule, append to new row
-var newSchedule = $('<td>').text('Schedule area').attr('contenteditable', 'true').attr('id', 'schedule').addClass('p-3');
-newRow.append(newSchedule);
+    let newSchedule = $('<li>').text('Schedule area').attr('contenteditable', 'true').addClass('col-2 d-flex p-3');
+    newRow.append(newSchedule);
+    newSchedule.attr('data-hour', hours[i]);
 
-//TODO: adds specific id for each schedule <td>
-newSchedule.attr('id', hours[i]);
+    let saveLink = $('<button>').text('Save').addClass('d-flex col-2 saveBtn p-3');
+    newRow.append(saveLink);
 
-//create td, set to <a> with save, append to new row
-var saveLink = $('<a>').text('Save').attr('href', '#').addClass('saveBtn p-3');
-newRow.append(saveLink);
-
-var currentTime = moment().format('HH'); 
-
-var timeColoring = function(){
-  if (currentTime < hours[i]){
-    newSchedule.addClass('future');
-  } else if (currentTime === hours[i]) {
-    newSchedule.addClass('present');
-  } else {
-    newSchedule.addClass('past');
+    let currentTime = moment().format('HH');
+    let timeColoring = function () {
+      if (currentTime < hours[i]) {
+        newSchedule.addClass('future');
+      } else if (currentTime === hours[i]) {
+        newSchedule.addClass('present');
+      } else {
+        newSchedule.addClass('past');
+      }
+    };
+    timeColoring();
   }
-};
-timeColoring();
-}
 };
 createTimeBlocks();
 
 //TODO: Local Storage
 
 // Get data typed into schedule section
-var scheduleInput = $('#schedule').text(); //
+var scheduleInput = $('#schedule').text();
 console.log(scheduleInput);
 
 //Get Stored Items
-var getLocalStorage = function(){
+var getLocalStorage = function () {
   localStorage.getItem('schedule');
 };
 console.log(getLocalStorage);
 
-$('.saveBtn').on('click', function() {
+$('.saveBtn').on('click', function () {
   localStorage.setItem('schedule', scheduleInput);
   localStorage.getItem('schedule');
-  });
+  console.log(this);
+  //TODO: use this to find sibling 
+});
 
-var init = function(){
+//TODO: 
+var init = function () {
   getLocalStorage();
   $('schedule').text()
 };
