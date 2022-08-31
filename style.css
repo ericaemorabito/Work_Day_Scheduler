@@ -37,7 +37,15 @@ ul {
 
 /* Time Block Elements */
 li {
-  padding-bottom: 3rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: .15rem;
+}
+
+/* Save Button */
+button {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   margin-bottom: .15rem;
 }
 
