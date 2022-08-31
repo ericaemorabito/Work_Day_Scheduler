@@ -76,24 +76,26 @@ function createTimeBlocks() {
     };
     timeColoring();
 
-    //TODO LOCAL STORAGE 
+    //TODO: LOCAL STORAGE 
 
     saveBtn.on('click', function () {
-      let scheduleElToStore = saveBtn.siblings('.schedule');
-      console.log(scheduleElToStore);
-      let newScheduleInput = scheduleElToStore.text();
+      let scheduleEl = saveBtn.siblings('.schedule'); //Finds the schedule element next to save button clicked
+      let newScheduleInput = scheduleEl.text(); //Gets the text in the schedule element
       console.log(newScheduleInput);
-
-
-      //1. find sibling schedule element .sibling('.schedule')
-      //2. get the new input data
-      //3. set the contents of storedData[i].schedule to the new contents(#2)
-      //4. find index in storedData that matches attr data-hour='12'
-
-      // let scheduleInput = $('.schedule').text(); //gets the text data from all schedule classes
-
+      localStorage.setItem('schedule', newScheduleInput); //Set to local storage
 
     })
+    //TODO: render item in local storage when page loads
+    // var init = function () {
+    //   var scheduleInit = localStorage.getItem('schedule'); // Data retrieved from storage
+    //   scheduleEl.text(scheduleInit);//set text to schedule element
+    // };
+    // init();
   }
 };
 createTimeBlocks();
+
+//1. find sibling schedule element .sibling('.schedule')
+//2. get the new input data
+//3. set the contents of storedData[i].schedule to the new contents(#2)
+//4. find index in storedData that matches attr data-hour='12'
