@@ -52,7 +52,7 @@ function createTimeBlocks() {
     let newRow = $('<section>').addClass('time-block col-12 d-inline-flex justify-content-center');
     let newHour = $('<li>').text(storedData[i].hour).addClass('hour col-1');
     let newSchedule = $('<li>').text(storedData[i].schedule).attr('contenteditable', 'true').addClass('schedule col-9 d-flex');
-    newSchedule.attr('id', storedData[i].hour); //TODO: Sets id of each section to the hour
+    newSchedule.attr('id', storedData[i].hour);
     let saveBtn = $('<button>').addClass('d-flex col-1 saveBtn');
     let saveIcon = $('<i>').addClass('fas fa-save');
     saveBtn.append(saveIcon);
@@ -61,7 +61,7 @@ function createTimeBlocks() {
     newRow.append(newSchedule);
     newRow.append(saveBtn);
 
-    //Colors the background of Schedule <li> depending on their hour
+    //Colors the background of Schedule <li> depending on the current hour
     let currentTime = moment().format('HH');
     let timeColoring = function () {
       if (currentTime < storedData[i].hour) {
@@ -74,8 +74,6 @@ function createTimeBlocks() {
     };
     timeColoring();
 
-    //TODO: saving to local storage
-
     saveBtn.on('click', function () {
       scheduleEl = saveBtn.siblings('.schedule'); //Finds the schedule element next to save button clicked
       console.log(scheduleEl);
@@ -83,22 +81,16 @@ function createTimeBlocks() {
       console.log(scheduleId);
       var scheduleInput = scheduleEl.text(); // Gets the text in the schedule element
       console.log(scheduleInput);
-      localStorage.setItem(scheduleId, scheduleInput); //TODO: Set id and input to storage
+      localStorage.setItem(scheduleId, scheduleInput);
     });
 
-    //TODO: render item in local storage when page loads
-    // var init = function () {
-    //   var storedScheduleInput = localStorage.getItem('schedule');
-    //   var scheduleInit = scheduleEl.text(storedScheduleInput);
-    // };
-    // init();
+    var scheduleEl;
+
+    var renderSchedule = function () {
+      var storedSchedule = localStorage.getItem(storedData[i].hour);
+      newSchedule.text(storedSchedule);
+    }
+    renderSchedule();
   }
 };
 createTimeBlocks();
-
-var scheduleEl;
-
-//1. find sibling schedule element .sibling('.schedule')
-//2. get the new input data
-//3. set the contents of storedData[i].schedule to the new contents(#2)
-//4. find index in storedData that matches attr data-hour='12'
