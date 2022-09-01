@@ -8,9 +8,6 @@ displayDay();
 
 var timeBlocks = $('#time_blocks');
 
-//TODO: array stored to local storage
-localStorage.setItem('data', storedData);
-
 var storedData = [
   {
     hour: 9,
@@ -55,7 +52,7 @@ function createTimeBlocks() {
     let newRow = $('<section>').addClass('time-block col-12 d-inline-flex justify-content-center');
     let newHour = $('<li>').text(storedData[i].hour).addClass('hour col-1');
     let newSchedule = $('<li>').text(storedData[i].schedule).attr('contenteditable', 'true').addClass('schedule col-9 d-flex');
-    newSchedule.attr('data-hour', storedData[i].hour); //Sets the data-hour of each schedule to the hour example: data-hour="9"
+    newSchedule.attr('id', storedData[i].hour); //TODO: Sets id of each section to the hour
     let saveBtn = $('<button>').addClass('d-flex col-1 saveBtn');
     let saveIcon = $('<i>').addClass('fas fa-save');
     saveBtn.append(saveIcon);
@@ -77,18 +74,22 @@ function createTimeBlocks() {
     };
     timeColoring();
 
-    //TODO: LOCAL STORAGE 
+    //TODO: saving to local storage
+
     saveBtn.on('click', function () {
       scheduleEl = saveBtn.siblings('.schedule'); //Finds the schedule element next to save button clicked
-      let newScheduleInput = scheduleEl.text(); //Gets the text in the schedule element
-      console.log(newScheduleInput);
-      localStorage.setItem('schedule', newScheduleInput); //Set to local storage
+      console.log(scheduleEl);
+      var scheduleId = scheduleEl.attr('id');// Gets the value of schedule element's id
+      console.log(scheduleId);
+      var scheduleInput = scheduleEl.text(); // Gets the text in the schedule element
+      console.log(scheduleInput);
+      localStorage.setItem(scheduleId, scheduleInput); //TODO: Set id and input to storage
+    });
 
-    })
     //TODO: render item in local storage when page loads
     // var init = function () {
-    //   var scheduleSaved = localStorage.getItem('schedule'); // Data retrieved from storage
-    //   scheduleEl.text(scheduleSaved);//set schedule element's text to saved input
+    //   var storedScheduleInput = localStorage.getItem('schedule');
+    //   var scheduleInit = scheduleEl.text(storedScheduleInput);
     // };
     // init();
   }
